@@ -14,6 +14,7 @@ public class hl : MonoBehaviour
 	public static GlobalInfo globalInfo;
 	public static List<Peer> peers;
 	public static int uIds;//Used in many places. Always unique
+	public static int team = 1;//Can be 0 (observer), 1 or 2.
 	public static string gameName = "DefaultGame";
 	public static int maxPlayers = 6;
 	public static NetworkManager manager;

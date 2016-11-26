@@ -28,6 +28,7 @@ public class ObjFuncs : MonoBehaviour
 		public bool isUnit = false;
 		public float stopDist = 1;
 		public TextMesh textMesh;
+		public bool isMoving = false;
 		public float turnSpd = 55;
 		public float spd = 5;
 		public float desiredAngle = 0;
@@ -48,6 +49,11 @@ public class ObjFuncs : MonoBehaviour
 		public int[] visualState = new int[3];
 		public int[] oldVisualState = new int[3];
 		public Renderer[] mainBodyRenderers;
+
+		public Animator animator;
+
+		public Animation animation;
+		public AnimationClip animClip;
 		/*
 		 * 
 		 */
@@ -81,6 +87,7 @@ public class ObjFuncs : MonoBehaviour
 	public static void CreateObj(Type type, Vector3 pos, Vector3 ang, int clId, int uId)
 	{
 		//Create the go
+		hl.Peer peer = hl.GetPeerForUID(clId);
 		Obj obj = new Obj();
 		obj.type = type;
 		obj.go = Instantiate(PrefabLibrary.GetPrefabForType(type));
@@ -102,6 +109,7 @@ public class ObjFuncs : MonoBehaviour
 				obj.textMesh = obj.go.GetComponentInChildren<TextMesh>();
 				obj.textMesh.text = "";//uId: " + obj.uId + "\nClId: " + obj.ownedByClId;
 				obj.go.GetComponent<Info>().uId = obj.uId;
+				obj.animator = obj.go.GetComponent<Info>().animator;
 				int[] cost = GetCostForType(type);
 				obj.popCost = cost[0];
 				obj.moneyCost = cost[1];
@@ -124,20 +132,20 @@ public class ObjFuncs : MonoBehaviour
 			case Type.Marine:
 				result = new int[4];
 				result[0] = 1;//Pop
-				result[1] = 100;//Money
+				result[1] = 50;//Money
 				result[2] = 0;//Muntions
-				result[3] = 10;//Fuel
+				result[3] = 0;//Fuel
 				break;
 		}
 		return result;
 	}
 
-	
+
 	public static bool CheckCost(Type type, hl.Peer peer)//Returns false if this peer can't afford it
 	{
 		int[] cost = GetCostForType(type);
-		if(cost == null) {return false; }
-		if(peer.pop + cost[0] <= peer.maxPop &&
+		if (cost == null) { return false; }
+		if (peer.pop + cost[0] <= peer.maxPop &&
 			peer.money >= cost[1] &&
 			peer.munitions >= cost[2] &&
 			peer.fuel >= cost[3])
@@ -151,7 +159,7 @@ public class ObjFuncs : MonoBehaviour
 	public static void SubtractCost(Type type, hl.Peer peer)//Subtracts the cost of this object from this peer
 	{
 		int[] cost = GetCostForType(type);
-		if(cost == null) {return; }
+		if (cost == null) { return; }
 		peer.pop += cost[0];
 		peer.money -= cost[1];
 		peer.munitions -= cost[2];
@@ -200,6 +208,22 @@ public class ObjFuncs : MonoBehaviour
 
 		//death
 
+
+		//Animate objects
+		AnimateObjects();
+	}
+
+	public static void AnimateObjects()
+	{
+		for (int i = 0; i < objs.Count; i++)
+		{
+			Obj o = objs[i];
+
+			if (o.animator != null)
+			{
+				o.animator.SetBool("isMoving", o.isMoving);
+			}
+		}
 	}
 
 	public static void KillDeadObjects()
@@ -261,12 +285,15 @@ public class ObjFuncs : MonoBehaviour
 			Obj o = objs[i];
 			if (o.isUnit)
 			{
+				o.isMoving = false;
+
 				//Debug.DrawLine(o.go.transform.position,o.goal, Color.green);
-				Effects.DrawLine(o.go.transform.position, o.goal, 0.2f, Effects.Colors.Red);
 
 				//Is the unit far enough away from it's goal, that it should go there?
 				if (Vector3.Distance(o.go.transform.position, o.goal) > o.stopDist)
 				{
+					Effects.DrawLine(o.go.transform.position, o.goal, 0.2f, Effects.Colors.Red);
+					o.isMoving = true;
 					//Slow turn at a flat rate
 					Vector3 pos = o.go.transform.position;
 					float tempSpd = o.spd;
@@ -287,6 +314,11 @@ public class ObjFuncs : MonoBehaviour
 
 					o.go.transform.Translate(new Vector3(0, 0, tempSpd * Time.deltaTime));
 				}
+				else
+				{
+				}
+				
+				o.textMesh.text = "isMoving: " + o.isMoving;
 			}
 		}
 	}

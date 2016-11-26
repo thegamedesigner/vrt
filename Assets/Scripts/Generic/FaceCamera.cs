@@ -3,7 +3,7 @@ using System.Collections;
 
 public class FaceCamera : MonoBehaviour
 {
-
+	public bool SnapZToZero = false;
 	// Use this for initialization
 	void Start()
 	{
@@ -14,6 +14,7 @@ public class FaceCamera : MonoBehaviour
 	{
 		if(xa.de == null) {return; }
 		transform.LookAt(Camera.main.transform.position, Vector3.back);
+		if(SnapZToZero) { transform.SetAngZ(0); }
 
 	}
 }

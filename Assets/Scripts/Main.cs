@@ -45,6 +45,18 @@ public class Main : MonoBehaviour
 			xa.lastGoal = xa.goal;
 			xa.debugStr = "\nGoal: " + xa.goal;
 		}
+
+		
+		if (Input.GetKeyDown(KeyCode.T))
+		{
+			if (Time.timeScale == 1) { Time.timeScale = 0.5f; }
+			else if (Time.timeScale == 0.5f) { Time.timeScale = 0.1f; }
+			else if (Time.timeScale == 0.1f) { Time.timeScale = 2f; }
+			else if (Time.timeScale == 2) { Time.timeScale = 5f; }
+			else if (Time.timeScale == 5) { Time.timeScale = 1f; }
+			Debug.Log("TimeScale: " + Time.timeScale);
+		}
+
 	}
 
 	void OnGUI()
