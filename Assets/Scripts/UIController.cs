@@ -20,7 +20,9 @@ public class UIController : MonoBehaviour
 	public UnityEngine.UI.Text chatInput;
 	public UnityEngine.UI.Text chatText;
 	public UnityEngine.UI.Text svTimeText;
-	
+	public GameObject InGameMenu;
+	public GameObject ChooseTeamMenu;
+
 	void Update()
 	{
 		popText.text = "Pop: " + displayPop + "/" + displayMaxPop;//"Pop: " + xa.pop + "/" + xa.maxPop;
@@ -28,12 +30,36 @@ public class UIController : MonoBehaviour
 		muntionsText.text = "Muntions: " + displayMunitions + " (+" + displayMunitionsIncrease + ")";
 		fuelText.text = "Fuel: " + displayFuel + " (+" + displayFuelIncrease + ")";
 		debugText.text = xa.debugStr;
-		
+
 		chatInput.text = ChatScript.inputStr;
 		chatText.text = ChatScript.chatStr;
 
 		svTimeText.text = "sv: " + hl.svTime + "\ncl: " + hl.clTime;
 
+	}
+	
+	public void ClickedOnIGM()
+	{
+		if (InGameMenu.activeSelf)
+		{
+			InGameMenu.SetActive(false);
+		}
+		else
+		{
+			InGameMenu.SetActive(true);
+		}
+	}
+
+	public void ClickedOnCT()
+	{
+		if (InGameMenu.activeSelf)
+		{
+			InGameMenu.SetActive(false);
+		}
+		else
+		{
+			InGameMenu.SetActive(true);
+		}
 	}
 
 }

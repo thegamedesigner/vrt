@@ -35,6 +35,9 @@ public class hl : MonoBehaviour
 		//This is a sendable class. Only basic types of variables
 		public string myName = "DefaultPlayer";
 		public int uId = -1;
+		public int team = -1;//0, 1 or 2 (observer, team 1, team 2)
+		public int playerNum = -1;//Player1, player2, player3, etc
+		public int teamPlayerNum = -1;//PlayerSlot1 on team X, PlayerSlot2 on team X, PlayerSlot3 on team X, 
 		public string key = "";
 
 		public int pop = 0;
