@@ -22,6 +22,8 @@ public class UIController : MonoBehaviour
 	public UnityEngine.UI.Text svTimeText;
 	public GameObject InGameMenu;
 	public GameObject ChooseTeamMenu;
+	public GameObject OptionsMenu;
+	public GameObject CreditsMenu;
 
 	void Update()
 	{
@@ -50,16 +52,38 @@ public class UIController : MonoBehaviour
 		}
 	}
 
+	public void CloseIGM()
+	{
+		TurnOffInGameMenuSubTabs();
+		InGameMenu.SetActive(false);
+	}
+	
 	public void ClickedOnCT()
 	{
-		if (InGameMenu.activeSelf)
-		{
-			InGameMenu.SetActive(false);
-		}
-		else
-		{
-			InGameMenu.SetActive(true);
-		}
+		TurnOffInGameMenuSubTabs();
+
+		ChooseTeamMenu.SetActive(true);
 	}
 
-}
+	public void ClickedOnOptions()
+	{
+		TurnOffInGameMenuSubTabs();
+
+		OptionsMenu.SetActive(true);
+	}
+
+	public void ClickedOnCredits()
+	{
+		TurnOffInGameMenuSubTabs();
+
+		CreditsMenu.SetActive(true);
+	}
+
+	void TurnOffInGameMenuSubTabs()
+	{
+		ChooseTeamMenu.SetActive(false);
+		OptionsMenu.SetActive(false);
+		CreditsMenu.SetActive(false);
+	}
+
+	}
