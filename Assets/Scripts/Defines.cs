@@ -9,5 +9,6 @@ public class Defines : MonoBehaviour
 	public GameObject selectionBox;
 	public Camera hudCamera;
 	public GameObject selectionCirclePrefab;
+	public GameObject networkDisplayPrefab;
 
 }

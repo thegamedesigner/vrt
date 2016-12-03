@@ -17,6 +17,10 @@ public class xa : MonoBehaviour
 	public static Vector3 goal = Vector3.one;
 
 	public static string debugStr = "";
+	
+	public static float muteMusic = 1;//Set to zero to mute music
+	public static float muteSounds = 1;
+
 
 	public static void WipeStaticVars()
 	{

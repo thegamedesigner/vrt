@@ -6,17 +6,16 @@ public class ChatScript : MonoBehaviour
 {
 	public static string inputStr;
 	public static string chatStr;
-	public static List<string> strs = new List<string>();
 	bool enterTextMode = false;
-	string str = "";
 	float timeSet = 0;
 	bool showCursor = false;
 	public static bool typing = false;
-
+	
+	string typingStr = "";
 	void Update()
 	{
+		/*
 		int index = 0;
-		string str = "";
 		while (index < 8)
 		{
 			if ((strs.Count - 1 - index) >= 0)
@@ -25,26 +24,23 @@ public class ChatScript : MonoBehaviour
 			}
 
 			index++;
-		}
-
-
-
+		}*/
 
 		if (Input.GetKeyDown(KeyCode.Return))
 		{
 			if (enterTextMode == false)
 			{
 				enterTextMode = true;
-				str = "";
+				typingStr = "";
 				typing = true;
 			}
 			else
 			{
 				enterTextMode = false;
 				typing = false;
-				hl.hlObj.CmdChat(str);
-				str = "";
-				inputStr = str;
+				hl.hlObj.CmdChat(typingStr);
+				typingStr = "";
+				inputStr = typingStr;
 			}
 		}
 
@@ -54,9 +50,9 @@ public class ChatScript : MonoBehaviour
 			{
 				if (c == "\b"[0])
 				{
-					if (str.Length != 0)
+					if (typingStr.Length != 0)
 					{
-						str = str.Substring(0, str.Length - 1);
+						typingStr = typingStr.Substring(0, typingStr.Length - 1);
 					}
 				}
 				else
@@ -66,20 +62,20 @@ public class ChatScript : MonoBehaviour
 					}
 					else
 					{
-						str += c;
+						typingStr += c;
 					}
 				}
 			}
-			inputStr = str;
+			inputStr = typingStr;
 
-			float delay = 0.3f;
+			float delay = 0.1f;
 			if (showCursor)
 			{
-				delay = 0.6f;
+				delay = 0.1f;
 			}
-			if (Time.timeSinceLevelLoad > (timeSet + delay))
+			if (Time.realtimeSinceStartup > (timeSet + delay))
 			{
-				timeSet = Time.timeSinceLevelLoad;
+				timeSet = Time.realtimeSinceStartup;
 				showCursor = !showCursor;
 			}
 			if (showCursor)
@@ -100,12 +96,7 @@ public class ChatScript : MonoBehaviour
 	}
 	public static void ChatLocally(string str)
 	{
-
-		strs.Add(str);
-		if (strs.Count > 8)
-		{
-			strs.RemoveAt(0);
-		}
+		chatStr += str + "\n";
 	}
 
 }

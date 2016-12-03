@@ -103,6 +103,7 @@ public class ObjFuncs : MonoBehaviour
 				obj.isUnit = true;//This obj is a unit, and can be selected.
 								  //create selectionCircle
 				obj.selectionCircle = (GameObject)Instantiate(xa.de.selectionCirclePrefab, pos, new Quaternion(0, 0, 0, 0));
+				
 				obj.selectionCircle.transform.parent = obj.go.transform;
 				obj.selectionCircle.transform.localPosition = Vector3.zero;
 				obj.selectionCircle.SetActive(false);

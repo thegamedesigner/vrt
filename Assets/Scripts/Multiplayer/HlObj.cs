@@ -36,11 +36,11 @@ public class HlObj : NetworkBehaviour
 	[Command]
 	public void CmdCreateObj(int clId, Vector3 pos, int objType)//Sends an order from the client to the server
 	{
-		Debug.Log("Trying to buy obj");
+		Debug.Log("Trying to buy " + (ObjFuncs.Type)objType);
 		//Can the player afford this object?
 		hl.Peer p = hl.GetPeerForUID(clId);
-		if (p == null) { return; }//Make sure the peer still exists
-		if (!ObjFuncs.CheckCost((ObjFuncs.Type)objType, p)) { return; }//Make sure they can afford this obj
+		if (p == null) { Debug.Log("Peer (" + clId + ") was null, failed to buy " + (ObjFuncs.Type)objType); return; }//Make sure the peer still exists
+		if (!ObjFuncs.CheckCost((ObjFuncs.Type)objType, p)) { Debug.Log("Couldnt afford " + (ObjFuncs.Type)objType); return; }//Make sure they can afford this obj
 
 		ObjFuncs.SubtractCost((ObjFuncs.Type)objType, p);//Spend the money to buy this object
 
@@ -98,8 +98,16 @@ public class HlObj : NetworkBehaviour
 		hl.uIds++;
 		peer.uId = hl.uIds;
 		peer.myName = myName;
+		peer.team = ServerSideLoop.DetermineBestTeam(peer.uId);//Only called on the server. Auto picks team 1 or 2
+		peer.teamPlayerNum = ServerSideLoop.DetermineTeamPlacement(peer.uId);
 		Resources.InitResources(peer);
+		hl.peers.Add(peer);
 		RpcGrantJoinAsPeer(peer);
+
+		//tell all the clients, including the one that just joined, all the peer info.
+		hl.Peer[] list = new hl.Peer[hl.peers.Count];
+		for (int i = 0; i < list.Length; i++) { list[i] = hl.peers[i]; }
+		RpcSendAllPeers(list);
 
 		//Also update everyone's global info
 		hl.globalInfo.currentPlayers++;
@@ -112,9 +120,58 @@ public class HlObj : NetworkBehaviour
 		if (isLocalPlayer)
 		{
 			if (hl.peers == null) { hl.peers = new List<hl.Peer>(); }
-			hl.peers.Add(peer);
+			//check that this peer doesn't already exist
+			int result = hl.GetIndexForUID(peer.uId);
+			if(result == -1)//Doesn't exist here yet
+			{
+				hl.peers.Add(peer);
+				Debug.Log("Just added Peer" + peer.uId + " to hl.peers, count: " + hl.peers.Count);
+			}
+
+			//At this point, it either exists here already, or was just added. Since this is
+			//the local player, set hl.local_uId
 			hl.local_uId = peer.uId;
 		}
+	}
+
+	[ClientRpc]
+	public void RpcSendAllPeers(hl.Peer[] arrayOfPeers)//Sends a fairly large packet of all peer info, because it doesn't know what this player has
+	{
+		if (hl.peers == null) { hl.peers = new List<hl.Peer>(); }
+
+		for (int i = 0; i < arrayOfPeers.Length; i++)
+		{
+			hl.OverwritePeer(arrayOfPeers[i]);
+		}
+
+	}
+
+	[ClientRpc]
+	public void RpcUpdateTeam(int uId, int team)//Updates a peer's team on all clients
+	{
+		//Is this peer already on the list?
+		int result = hl.GetIndexForUID(uId);
+		if (result != -1)//Peer doesn't exist
+		{
+			//Ah here it is, update it's details
+			hl.peers[result].team = team;
+		}
+	}
+
+	//Request team change
+	[Command]
+	public void CmdRequestChangeTeam(int clId, int desiredTeam)//Happens on the server
+	{
+		//A client has asked to change team
+		hl.Peer peer = hl.GetPeerForUID(clId);
+		if (peer != null)
+		{
+			//Grant team change request
+			peer.team = desiredTeam;
+		}
+
+		//Update everyone's peers (not added yet)
+		//RpcUpdateTeam(clId, desiredTeam);
 	}
 
 	//Update global info
@@ -136,13 +193,12 @@ public class HlObj : NetworkBehaviour
 
 	void Start()
 	{
-
-		if (isServer)
+		if (isServer && isLocalPlayer)//Are you the server and the local player? Then setup some stuff! 
 		{
 			//Setup server info
 			hl.globalInfo = new hl.GlobalInfo();
 			hl.globalInfo.currentLevel = "Level1";
-			hl.peers = new List<hl.Peer>();
+			hl.peers = new List<hl.Peer>();//This has to ONLY happen on the LocalPlayer Server, or client's joining will wipe the peers list.
 		}
 
 		if (isLocalPlayer)

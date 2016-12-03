@@ -56,6 +56,8 @@ public class Ticks : MonoBehaviour
 		s.Add(hl.svTime);//The first float is always the time, so it functions as a time stamp
 
 		//loop through every peer
+		if(hl.peers != null)
+		{
 		for (int i = 0; i < hl.peers.Count; i++)
 		{
 			//Pop
@@ -86,6 +88,7 @@ public class Ticks : MonoBehaviour
 			s.Add(hl.peers[i].fuel);
 			s.Add(hl.peers[i].fuelIncrease);
 
+		}
 		}
 
 		//loop through every object

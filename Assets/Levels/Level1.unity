@@ -262,7 +262,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 1, g: 0, b: 0, a: 0}
+  m_BackGroundColor: {r: 0.6739619, g: 0.5669334, b: 0.7205882, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -322,52 +322,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d2f23037de63654988e342d00cffa61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &1276890475
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4000013702177132, guid: 4eda78cd75d29e2478584ec0fbe7447e, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 7.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000013702177132, guid: 4eda78cd75d29e2478584ec0fbe7447e, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000013702177132, guid: 4eda78cd75d29e2478584ec0fbe7447e, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000013702177132, guid: 4eda78cd75d29e2478584ec0fbe7447e, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000013702177132, guid: 4eda78cd75d29e2478584ec0fbe7447e, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000013702177132, guid: 4eda78cd75d29e2478584ec0fbe7447e, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000013702177132, guid: 4eda78cd75d29e2478584ec0fbe7447e, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000013702177132, guid: 4eda78cd75d29e2478584ec0fbe7447e, type: 2}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000011368221470, guid: 4eda78cd75d29e2478584ec0fbe7447e, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 4eda78cd75d29e2478584ec0fbe7447e, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &1280490450
 GameObject:
   m_ObjectHideFlags: 0
