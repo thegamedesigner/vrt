@@ -12,7 +12,7 @@ public class CameraScript : MonoBehaviour
 	float spdAdd = 1;
 	float scrollZoomFactor = 1;
 	float dist = 250;
-	float minDist = 1;
+	float minDist = 3;
 	float maxDist = 600;
 	float tilt = 0;
 	float minTilt = -10;
@@ -29,8 +29,8 @@ public class CameraScript : MonoBehaviour
 
 	void Update()
 	{
-		scrollZoomFactor = dist * 0.002f;
-		if (scrollZoomFactor < 0.2f) { scrollZoomFactor = 0.2f; }
+		scrollZoomFactor = dist * 0.001f;
+		if (scrollZoomFactor < 0.1f) { scrollZoomFactor = 0.1f; }
 		if (scrollZoomFactor > 1f) { scrollZoomFactor = 1f; }
 
 		if (CameraNode == null)
