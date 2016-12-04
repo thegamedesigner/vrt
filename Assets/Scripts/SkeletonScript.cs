@@ -7,6 +7,7 @@ public class SkeletonScript : MonoBehaviour
 	{
 		None,
 		MatchUnitsAngle,
+		LookAtJoint,
 		End
 	}
 
@@ -27,6 +28,7 @@ public class SkeletonScript : MonoBehaviour
 		public AttachMethod attachMethod = AttachMethod.None;
 		public RotationMethod rotationMethod = RotationMethod.None;
 		public GameObject[] attachPoints;
+		public GameObject[] rotationPoints;
 
 
 	}
@@ -52,6 +54,9 @@ public class SkeletonScript : MonoBehaviour
 			{
 				case RotationMethod.MatchUnitsAngle:
 					bones[i].go.transform.SetAngY(gameObject.transform.localEulerAngles.y);
+					break;
+				case RotationMethod.LookAtJoint:
+					bones[i].go.transform.LookAt(bones[i].rotationPoints[0].transform.position);
 					break;
 			}
 		}
