@@ -30,8 +30,6 @@ public class SkeletonScript : MonoBehaviour
 		public RotationMethod rotationMethod = RotationMethod.None;
 		public GameObject[] attachPoints;
 		public GameObject[] rotationPoints;
-
-
 	}
 
 	void Start()
