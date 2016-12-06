@@ -47,6 +47,8 @@ public class CameraScript : MonoBehaviour
 		if (ChatScript.typing) { return; }
 		//Zoom
 		dist += -Input.GetAxis("MouseScrollWheel") * zoomSpd * Time.deltaTime;
+		if(Input.GetKey(KeyCode.Minus)) {dist += 1f * zoomSpd * Time.deltaTime; }
+		if(Input.GetKey(KeyCode.Equals)) {dist -= 1f * zoomSpd * Time.deltaTime; }
 		if (dist < minDist) { dist = minDist; }
 		if (dist > maxDist) { dist = maxDist; }
 

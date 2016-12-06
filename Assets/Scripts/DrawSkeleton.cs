@@ -9,6 +9,7 @@ public class DrawSkeleton : MonoBehaviour
 	public class Bone
 	{
 		public string label = "";
+		public Color color = Color.blue;
 		public Joint joint1;
 		public Joint joint2;
 	}
@@ -29,7 +30,7 @@ public class DrawSkeleton : MonoBehaviour
 	{
 		for (int i = 0; i < bones.Length; i++)
 		{
-			Debug.DrawLine(bones[i].joint1.go.transform.position,bones[i].joint2.go.transform.position,Color.blue);
+			Debug.DrawLine(bones[i].joint1.go.transform.position,bones[i].joint2.go.transform.position,bones[i].color);
 		}
 		}
 }

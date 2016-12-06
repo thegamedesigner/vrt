@@ -24,6 +24,7 @@ public class SkeletonScript : MonoBehaviour
 	public class Bone
 	{
 		public string label = "";//what this thing is
+		public string notes = "";//just notes
 		public GameObject go;//The thing that is attached
 		public AttachMethod attachMethod = AttachMethod.None;
 		public RotationMethod rotationMethod = RotationMethod.None;
